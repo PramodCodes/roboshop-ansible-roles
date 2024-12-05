@@ -1,0 +1,5 @@
+- name: "Install {{componenet}}"
+  hosts:  "{{componenet}}"
+  become: yes
+  roles:
+  - "{{componenet}}"
