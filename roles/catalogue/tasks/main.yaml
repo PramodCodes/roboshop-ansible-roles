@@ -1,0 +1,6 @@
+# calling role from common role this is done by 
+# using import role  
+- name: app setup
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: common
