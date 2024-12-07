@@ -8,34 +8,45 @@
     name: mongodb-org-shell
     state: present
 
-# you cannot load same data twice you will get duplicate keys error
-#check if data is loaded or not
-- name: "get the entries count for {{component}}"
-  ansible.builtin.command:  mongo --host mongodb.pka.in.net --quiet --eval 'db = db.getSiblingDB("catalogue"); db.products.count()'
-  register: entries_count
+# Step 1: Get the entries count for catalogue
+- name: "Get the entries count for catalogue"
+  ansible.builtin.command: mongo --host mongodb.pka.in.net --quiet --eval 'db = db.getSiblingDB("catalogue"); db.products.count()'
+  register: catalogue_entries_count
   when: component == "catalogue"
 
-- name: "get the entries count for {{component}}"
+# Step 2: Get the entries count for user
+- name: "Get the entries count for user"
   ansible.builtin.command: mongo --host mongodb.pka.in.net --quiet --eval 'db = db.getSiblingDB("users"); db.users.count()'
-  register: entries_count
+  register: user_entries_count
   when: component == "user"
 
-# Step 2: Set a default value for entries_count if skipped
-- name: Set default entries_count if skipped
+# Step 3: Set a default value for catalogue_entries_count if skipped
+- name: Set default catalogue_entries_count if skipped
   ansible.builtin.set_fact:
-    entries_count: {"stdout": None}
-  when: entries_count is not defined
+    catalogue_entries_count: {"stdout": None}
+  when: catalogue_entries_count is not defined
 
-- name: print the count
+# Step 4: Set a default value for user_entries_count if skipped
+- name: Set default user_entries_count if skipped
+  ansible.builtin.set_fact:
+    user_entries_count: {"stdout": None}
+  when: user_entries_count is not defined
+
+# Step 5: Debug the entries count for verification
+- name: Print catalogue entries count
   ansible.builtin.debug:
-    msg: "entries count: {{entries_count}}"
-  when: entries_count is defined
+    msg: "Catalogue entries count: {{ catalogue_entries_count }}"
+  when: catalogue_entries_count is defined
 
-- name: load catalogue data
-  ansible.builtin.shell: "mongo --host mongodb.pka.in.net < /app/schema/{{component}}.js"
-  # the below will check the data in db and only loads when count is 0
+- name: Print user entries count
+  ansible.builtin.debug:
+    msg: "User entries count: {{ user_entries_count }}"
+  when: user_entries_count is defined
+
+# Step 6: Load catalogue data only if count is 0
+- name: Load catalogue data
+  ansible.builtin.shell: "mongo --host mongodb.pka.in.net < /app/schema/catalogue.js"
   when:
-  #  entries_count.stdout == "0" # keep double quotes because its not number but string
-    - component == "catalogue"  # Ensure the correct component
-    - entries_count is defined  # Ensure the variable exists
-    - entries_count.stdout == "0"  # Only load data if count is 0
+    - component == "catalogue"
+    - catalogue_entries_count is defined
+    - catalogue_entries_count.stdout == "0"
