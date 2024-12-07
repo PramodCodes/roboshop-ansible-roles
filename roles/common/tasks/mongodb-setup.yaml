@@ -15,14 +15,15 @@
   register: entries_count
   when: component == "catalogue"
 
+- name: print the count
+  ansible.builtin.debug:
+    msg: "entries count: {{entries_count}}"
+
 - name: "get the entries count for {{component}}"
   ansible.builtin.command: mongo --host mongodb.pka.in.net --quiet --eval 'db = db.getSiblingDB("users"); db.users.count()'
   register: entries_count
   when: component == "user"
 
-- name: print the count
-  ansible.builtin.debug:
-    msg: "entries count: {{entries_count}}"
 
 - name: load catalogue data
   ansible.builtin.shell: "mongo --host mongodb.pka.in.net < /app/schema/{{component}}.js"
