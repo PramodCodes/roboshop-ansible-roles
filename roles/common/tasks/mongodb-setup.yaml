@@ -25,7 +25,7 @@
     msg: "entries count: {{entries_count}}"
 
 - name: load catalogue data
-  ansible.builtin.command: "mongo --host mongodb.pka.in.net < /app/schema/{{component}}.js"
+  ansible.builtin.shell: "mongo --host mongodb.pka.in.net < /app/schema/{{component}}.js"
   # the below will check the data in db and only loads when count is 0
   when: entries_count.stdout == "0" # keep double quotes because its not number but string
 
