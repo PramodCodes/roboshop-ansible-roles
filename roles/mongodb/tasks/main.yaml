@@ -20,7 +20,8 @@
     path: /etc/mongod.conf
     regexp: '127.0.0.1'
     replace: '0.0.0.0'
-    backup: yes # Create a backup file including the timestamp information so you can get the original file back if you somehow clobbered it incorrectly.
+    backup: yes # Create a backup file including the timestamp information so 
+    # you can get the original file back if you somehow clobbered it incorrectly.
 
 - name: restart mongodb
   ansible.builtin.service:
