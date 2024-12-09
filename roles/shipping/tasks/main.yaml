@@ -4,7 +4,7 @@
     name: common
     tasks_from: app-setup
 
-- name: node js setup
+- name: Maven setup
   ansible.builtin.import_role:
     name: common
     tasks_from: java
@@ -14,7 +14,7 @@
     name: common
     tasks_from: mysql-setup
 
-- name: mysql service
+- name: system start
   ansible.builtin.import_role:
     name: common
     tasks_from: systemd
