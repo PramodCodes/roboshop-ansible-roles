@@ -10,13 +10,13 @@
 # to fix the same variable overwitten error follow below logic session 22 50:00
 # Step 1: Get the entries count for catalogue
 - name: "Get the entries count for catalogue"
-  ansible.builtin.command: mongo --host mongodb.pka.in.net --quiet --eval 'db = db.getSiblingDB("catalogue"); db.products.count()'
+  ansible.builtin.command: mongo --host {{MONGODB_HOST}} --quiet --eval 'db = db.getSiblingDB("catalogue"); db.products.count()'
   register: catalogue_entries_count
   when: component == "catalogue"
 
 # Step 2: Get the entries count for user
 - name: "Get the entries count for user"
-  ansible.builtin.command: mongo --host mongodb.pka.in.net --quiet --eval 'db = db.getSiblingDB("users"); db.users.count()'
+  ansible.builtin.command: mongo --host {{MONGODB_HOST}} --quiet --eval 'db = db.getSiblingDB("users"); db.users.count()'
   register: user_entries_count
   when: component == "user"
 
@@ -45,7 +45,7 @@
 
 # Step 6: Load catalogue data only if count is 0
 - name: Load catalogue data
-  ansible.builtin.shell: "mongo --host mongodb.pka.in.net < /app/schema/catalogue.js"
+  ansible.builtin.shell: "mongo --host {{MONGODB_HOST}} < /app/schema/catalogue.js"
   when:
     - component == "catalogue"
     - catalogue_entries_count is defined
