@@ -1,2 +1,3 @@
 MONGODB_HOST: mongodb.pka.in.net
 REDIS_HOST: redis.pka.in.net
+CATALOGUE_HOST: catalogue.pka.in.net
