@@ -35,12 +35,12 @@
 # Step 5: Debug the entries count for verification
 - name: Print catalogue entries count
   ansible.builtin.debug:
-    msg: "Catalogue entries count: {{ catalogue_entries_count }}"
+    msg: "Catalogue entries count: {{catalogue_entries_count}}"
   when: catalogue_entries_count is defined
 
 - name: Print user entries count
   ansible.builtin.debug:
-    msg: "User entries count: {{ user_entries_count }}"
+    msg: "User entries count: {{user_entries_count}}"
   when: user_entries_count is defined
 
 # Step 6: Load catalogue data only if count is 0
