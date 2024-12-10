@@ -14,9 +14,9 @@
     name: common
     tasks_from: systemd
 
-#- name: mysql setup
-#  ansible.builtin.import_role:
-#    name: common
-#    tasks_from: mysql-setup
+- name: mysql setup
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: mysql-setup
 
     
