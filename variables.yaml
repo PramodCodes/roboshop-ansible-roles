@@ -7,4 +7,4 @@ SHIPPING_HOST: shipping.pka.in.net
 PAYMENT_HOST: payment.pka.in.net
 DISPATCH_HOST: dispatch.pka.in.net
 RABBITMQ_HOST: rabbitmq.pka.in.net
-MYSQL_HOST: mysql.pka.in.net
+MYSQL_HOST: 172.31.42.45
