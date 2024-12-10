@@ -1,5 +1,5 @@
 - name: install shipping component
-  hosts: shipping
+  hosts: shipping.pka.in.net
   become: yes
   vars:
     mysql_password: RoboShop@1
