@@ -1,7 +1,3 @@
-
-vars:
-  mysql_password: RoboShop@1
-tasks:
 - name: install maven
   ansible.builtin.dnf:
     name: maven
@@ -57,7 +53,7 @@ tasks:
     state: present
 
 - name: check cities schema exists or not
-  ansible.builtin.command:  mysql -h mysql.pka.in.net -uroot -p{{mysql_password}} -sN -e "SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'cities'"
+  ansible.builtin.command:  mysql -h mysql.pka.in.net -uroot -pRoboShop@1 -sN -e "SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'cities'"
   register: schema
 
 - name: print output
@@ -65,7 +61,7 @@ tasks:
     msg: "schema output: {{schema}}"
 
 - name: load cities data
-  ansible.builtin.shell: "mysql -h mysql.pka.in.net -uroot -p{{mysql_password}}  < /app/schema/shipping.sql"
+  ansible.builtin.shell: "mysql -h mysql.pka.in.net -uroot -pRoboShop@1  < /app/schema/shipping.sql"
   when: schema.stdout != "1"
 
 - name: start and enable shipping
