@@ -1,6 +1,6 @@
 - name: "Install {{component}}"
   hosts:  "{{component}}"
-  strategy: debug
+#  strategy: debug
   vars_files:
   - variables.yaml
   become: yes
